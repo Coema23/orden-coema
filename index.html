@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generar Tirilla de Combustible</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
-    <link rel="icon" type="image/x-icon" href="favicon.png">
+    <link rel="icon" type="image/png" href="favicon.png">
     <style>
         /* Estilos generales */
         body {
@@ -140,7 +140,8 @@
     </div>
 
     <script>
-        let numeroOrden = 0;
+        // Obtener el número de orden desde localStorage o inicializarlo en 1
+        let numeroOrden = localStorage.getItem('numeroOrden') ? parseInt(localStorage.getItem('numeroOrden')) : 1;
         let registros = []; // Array para almacenar los registros
 
         function generarTirilla() {
@@ -155,9 +156,6 @@
                 alert("Por favor, complete todos los campos obligatorios: Fecha, Nombre, Vehículo y Placa.");
                 return false; // Evita que el formulario se envíe
             }
-
-            // Incrementar el número de orden
-            numeroOrden++;
 
             // Obtener la fecha en formato local
             const fecha = new Date(fechaInput).toLocaleDateString();
@@ -250,6 +248,10 @@
                 kilometraje: kilometraje || "N/A" // Si no hay kilometraje, se guarda "N/A"
             };
             registros.push(registro);
+
+            // Incrementar el número de orden y guardarlo en localStorage
+            numeroOrden++;
+            localStorage.setItem('numeroOrden', numeroOrden);
 
             // Generar el archivo Excel
             generarExcel();
